@@ -12,7 +12,15 @@ module.exports =
         {
             if( member )
             {
-                let mutedRole = message.guild.roles.cache.find( role => role.name === "Muted" );
+                let mutedRole = message.guild.roles.cache.find( role => role.name.toLowerCase() === "muted" );
+                if( mutedRole === undefined )
+                {
+                    var EmbedError = new Discord.MessageEmbed()
+                    .setTitle( 'Oops' )
+                    .setDescription( "I couldn't find a role named 'Muted'\nPlease Contact a Mod for help" );
+                    message.channel.send( EmbedError );
+                    return;
+                }
                 const Target = message.guild.members.cache.get(member.id);
                 if(!args[1])
                 {
