@@ -4,7 +4,7 @@ module.exports =
 {
     name : 'kick' ,
     description : "Used to kick a user from the server(Needs admin perms)" ,
-    execute( message , args )
+    async execute( message , args )
     {
         const member = message.mentions.users.first();
         let perms = message.member.permissions.has( "KICK_MEMBERS" );
@@ -13,10 +13,16 @@ module.exports =
             if( member )
             {
                 const Target = message.guild.members.cache.get(member.id);
-                Target.kick();
                 var Embed = new Discord.MessageEmbed()
                 .setTitle( 'Done' )
                 .setDescription( "Kicked <@!" + member.id + ">" );
+                function err()
+                {
+                    Embed = new Discord.MessageEmbed()
+                    .setTitle( 'Oops' )
+                    .setDescription( "I can't kick that member" );
+                }
+                await Target.kick().catch( error => err( error ) );
                 message.channel.send( Embed );
             }else{
                 var EmbedError = new Discord.MessageEmbed()

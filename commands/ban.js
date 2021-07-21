@@ -12,28 +12,46 @@ module.exports =
         {
             if( member )
             {
+                var Embed3 = new Discord.MessageEmbed()
+                .setTitle( 'Banned' )
+                .setDescription( 'Banned <@!' + member.id + '>' );
                 const Target = message.guild.members.cache.get(member.id);
                 if( args[1] != undefined )
                 {
+                    var Embed = new Discord.MessageEmbed()
+                    .setTitle( 'Banned' )
+                    .setDescription( 'Banner : <@' + message.author + '>\nReason : ' + args[1] );
+                    function err()
+                    {
+                        Embed = new Discord.MessageEmbed()
+                        .setTitle( 'Gosh' )
+                        .setDescription( '<@!' + message.author + '> attempted to ban you for "' + args[1] +'", but failed.' );
+                        Embed3 = new Discord.MessageEmbed()
+                        .setTitle( 'Oops' )
+                        .setDescription( "I can't ban that member" );
+                    }
                     Target.ban(
                                 {
                                     reason : args[1]
                                 }
-                              );
-                    var Embed = new Discord.MessageEmbed()
-                    .setTitle( 'Banned' )
-                    .setDescription( 'Banner : <@' + message.author + '>\nReason : ' + args[1] );
+                              ).catch( err() );
                     Target.send( Embed );
                 }else{
-                    Target.ban();
                     var Embed2 = new Discord.MessageEmbed()
                     .setTitle( 'Banned' )
                     .setDescription( 'Banner : <@!' + message.author + '>' );
+                    function erro()
+                    {
+                        Embed2 = new Discord.MessageEmbed()
+                        .setTitle( 'Gosh' )
+                        .setDescription( '<@!' + message.author + '> attempted to ban you, but failed' );
+                        Embed3 = new Discord.MessageEmbed()
+                        .setTitle( 'Oops' )
+                        .setDescription( "I can't ban that member" );
+                    }
+                    Target.ban().catch( erro() );
                     Target.send( Embed2 );
                 }
-                var Embed3 = new Discord.MessageEmbed()
-                .setTitle( 'Done' )
-                .setDescription( 'Banned <@!' + member.id + '>' );
                 message.channel.send( Embed3 );
             }else{
                 var Embed4 = new Discord.MessageEmbed()
