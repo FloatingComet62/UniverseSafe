@@ -8,7 +8,7 @@ module.exports =
     {
         const Reported = message.mentions.users.first();
         const Reporter = message.guild.members.cache.get(message.author.id);
-        const reason = args[1];
+        const reason = args.slice(1,args.length).toString().replace(/,/g, " ");
         if( Reported )
         {
             const reportedmember = message.guild.members.cache.get(Reported.id).user;

@@ -8,6 +8,7 @@ module.exports =
     {
         const member = message.mentions.users.first();
         let perms = message.member.permissions.has( "BAN_MEMBERS" );
+        const REASON = args.slice(1,args.length).toString().replace(/,/g, " ");
         if( perms )
         {
             if( member )
@@ -20,19 +21,19 @@ module.exports =
                 {
                     var Embed = new Discord.MessageEmbed()
                     .setTitle( 'Banned' )
-                    .setDescription( 'Banner : <@' + message.author + '>\nReason : ' + args[1] );
+                    .setDescription( 'Banner : <@' + message.author + '>\nReason : ' + REASON );
                     function err()
                     {
                         Embed = new Discord.MessageEmbed()
                         .setTitle( 'Gosh' )
-                        .setDescription( '<@!' + message.author + '> attempted to ban you for "' + args[1] +'", but failed.' );
+                        .setDescription( '<@!' + message.author + '> attempted to ban you for "' + REASON +'", but failed.' );
                         Embed3 = new Discord.MessageEmbed()
                         .setTitle( 'Oops' )
                         .setDescription( "I can't ban that member" );
                     }
                     Target.ban(
                                 {
-                                    reason : args[1]
+                                    reason : REASON
                                 }
                               ).catch( err() );
                     Target.send( Embed );
