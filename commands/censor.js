@@ -22,7 +22,7 @@ module.exports =
                     Target.roles.add( mutedRole.id );
                     var Embed = new Discord.MessageEmbed()
                     .setTitle( 'Warning' )
-                    .setDescription( 'Muted <@!' + member + '> for `30` minutes for swearing' );
+                    .setDescription( 'Muted <@!' + member + '> for `10` minutes for swearing' );
                     message.channel.send( Embed );
                     setTimeout( 
                                 function()
@@ -41,7 +41,7 @@ module.exports =
                         Target.roles.add( mutedRole.id );
                         var Embed = new Discord.MessageEmbed()
                         .setTitle( 'Warning' )
-                        .setDescription( 'Muted <@!' + member + '> for `10` minutes for sending a link' );
+                        .setDescription( 'Muted <@!' + member + '> for `10` minutes for swearing' );
                         message.channel.send( Embed );
                         setTimeout( 
                                     function()
