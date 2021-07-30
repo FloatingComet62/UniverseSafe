@@ -107,7 +107,7 @@ module.exports=
                 .setTitle( 'Commands | Ban' )
                 .setDescription( 'This command is used to Ban people' )
                 .addFields(
-                    { name : 'Usage Example' , value : '`.ban `<@!834415441358094416>` This_is_the_reason`' } ,
+                    { name : 'Usage Example' , value : '`.ban `<@!834415441358094416>` This is the reason`' } ,
                     { name : 'Syntex' , value : '`.ban (User) [Reason]`' } ,
                     { name : 'Permission' , value : 'Ban' }
                 )
@@ -133,7 +133,7 @@ module.exports=
                 .setTitle( 'Commands | Report' )
                 .setDescription( 'This command is used to Report people' )
                 .addFields(
-                    { name : 'Usage Example' , value : '`.report `<@!834415441358094416>` This_is_the_reason`' } ,
+                    { name : 'Usage Example' , value : '`.report `<@!834415441358094416>` This is the reason`' } ,
                     { name : 'Syntex' , value : '`.report (User) [Reason]`' } ,
                     { name : 'Permission' , value : 'Everyone' }
                 )
