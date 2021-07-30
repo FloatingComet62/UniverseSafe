@@ -7,10 +7,10 @@ const prefix = '.';
 const fs = require('fs');
 
 Client.commands = new Discord.Collection();
-const commandFiles = fs.readdirSync('./universesafecommands/').filter(file => file.endsWith('.js'));
+const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
 for(const file of commandFiles)
 {
-    const command = require(`./universesafecommands/${file}`);
+    const command = require(`./commands/${file}`);
     Client.commands.set(command.name, command);
 }
 Client.on("guildCreate", guild => {
@@ -66,10 +66,6 @@ Client.on( 'message' , message =>
                                     {
                                         Client.commands.get( 'clear' ).execute( message , args );
                                     }
-                                    if( command === 'reset' )
-                                    {
-                                        Client.commands.get( 'reset' ).execute( message , args );
-                                    }
                                     if( command === 'mute' )
                                     {
                                         Client.commands.get( 'mute' ).execute( message , args );
@@ -96,6 +92,6 @@ Client.on( 'message' , message =>
                                     }
                                 }
         );
+
 //----------------------------------------------------------------------------//
-//login
 Client.login(require('./config.json').token);
