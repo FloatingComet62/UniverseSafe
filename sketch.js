@@ -29,7 +29,7 @@ Client.on("guildCreate", guild => {
     let channel = guild.channels.cache.get(guild.systemChannelID || channelID);
                                         var Embed = new Discord.MessageEmbed()
                                         .setTitle( "Universesafe | Thanks for inviting" )
-                                        .setDescription( "```Hello, I am Universesafe!\n I am a moderation bot which will moderate your server!```\n\n**Features**\n\n```I censor direct swear words, simplify moderation actions, like clear messages, ban, kick, mute & unmute```\n\n**```Nexus```**\nRemember, there are 2 spaces b/w each parameter\n[Vote Me](https://discordbotlist.com/bots/universesafe/upvote)\n[Invite Me](https://discord.com/oauth2/authorize?client_id=834415441358094416&permissions=8&scope=bot%20applications.commands)\n[Report a Bug](https://github.com/FloatingComet62/UniverseSafe/issues)" )
+                                        .setDescription( "```Hello, I am Universesafe!\n I am a moderation bot which will moderate your server!```\n\n**Features**\n\n```I censor direct swear words, simplify moderation actions, like clear messages, ban, kick, mute & unmute```\n\n**```Nexus```**\n[Vote Me](https://discordbotlist.com/bots/universesafe/upvote)\n[Vote Me 2.0](https://top.gg/bot/834415441358094416/vote)\n[Invite Me](https://discord.com/oauth2/authorize?client_id=834415441358094416&permissions=8&scope=bot%20applications.commands)\n[Report a Bug](https://github.com/FloatingComet62/UniverseSafe/issues)" )
                                         .setThumbnail( 'https://cdn.discordapp.com/avatars/834415441358094416/0867183dc955b618e7754237dd30855c.png?size=128' )
                                         channel.send( Embed );
 }
@@ -42,56 +42,58 @@ Client.once( 'ready' , async()=>{
 Client.on( 'message' , message =>
                                 {
 
-                                    require('./universesafecommands/censor').execute( message );
+                                    require('./commands/censor').execute( message );
 
                                     if(!message.content.startsWith(prefix) || message.author.bot) return;
 
                                     const args = message.content.slice(prefix.length).split(/ +/);
                                     const command = args.shift().toLowerCase();
-
-
+  
                                     if( command === 'ping' )
                                     {
-                                        Client.commands.get( 'ping' ).execute( message , args );
-                                    }
-                                    if( command === 'kick' )
-                                    {
-                                        Client.commands.get( 'kick' ).execute( message , args );
-                                    }
-                                    if( command === 'ban' )
-                                    {
-                                        Client.commands.get( 'ban' ).execute( message , args );
-                                    }
-                                    if( command === 'clear' )
-                                    {
-                                        Client.commands.get( 'clear' ).execute( message , args );
-                                    }
-                                    if( command === 'mute' )
-                                    {
-                                        Client.commands.get( 'mute' ).execute( message , args );
-                                    }
-                                    if( command === 'unmute' )
-                                    {
-                                        Client.commands.get( 'unmute' ).execute( message , args );
+                                         Client.commands.get( 'ping' ).execute( message , args );
                                     }
                                     if( command === 'commands' )
                                     {
                                         Client.commands.get( 'commands' ).execute( message , args );
                                     }
-                                    if( command === 'report' )
-                                    {
-                                        Client.commands.get( 'report' ).execute( message , args , Client );
-                                    }
-                                    if( command === 'poll' )
-                                    {
-                                        Client.commands.get( 'poll' ).execute( message , args , Client );
-                                    }
                                     if( command === 'help' )
                                     {
                                         Client.commands.get( 'help' ).execute( message , args );
                                     }
+                                    if( message.channel.type != 'dm')
+                                    {
+                                        if( command === 'kick' )
+                                        {
+                                           Client.commands.get( 'kick' ).execute( message , args );
+                                        }
+                                        if( command === 'ban' )
+                                        {
+                                            Client.commands.get( 'ban' ).execute( message , args );
+                                        }
+                                        if( command === 'clear' )
+                                        {
+                                            Client.commands.get( 'clear' ).execute( message , args );
+                                        }
+                                        if( command === 'mute' )
+                                        {
+                                            Client.commands.get( 'mute' ).execute( message , args );
+                                        }
+                                        if( command === 'unmute' )
+                                        {
+                                            Client.commands.get( 'unmute' ).execute( message , args );
+                                        }
+                                        if( command === 'report' )
+                                        {
+                                            Client.commands.get( 'report' ).execute( message , args , Client );
+                                        }
+                                        if( command === 'poll' )
+                                        {
+                                            Client.commands.get( 'poll' ).execute( message , args , Client );
+                                        }
+                                    }
                                 }
         );
-
 //----------------------------------------------------------------------------//
+//login
 Client.login(require('./config.json').token);
