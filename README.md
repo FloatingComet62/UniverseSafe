@@ -47,3 +47,5 @@ UniverseSafe is a Discord bot written in [JS](https://www.javascript.com/) that 
 .unmute - This command is  used to unmute people
 
 .poll - This command is used to react upvote and downvote a message
+
+.update - This command is used to edit the customiztion of the bot
