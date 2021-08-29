@@ -4,16 +4,37 @@ module.exports =
 {
     name : 'report' ,
     description : "Used to report people" ,
-    execute( message , args , CLIENT )
+    async execute( message , args , CLIENT , DB )
     {
         const Reported = message.mentions.users.first();
         const Reporter = message.guild.members.cache.get(message.author.id);
         const reason = args.slice(1,args.length).toString().replace(/,/g, " ");
+        var Loop = 1;
         if( Reported )
         {
             const reportedmember = message.guild.members.cache.get(Reported.id).user;
             const reportermember = message.guild.members.cache.get(Reporter.id).user;
-            var Log = CLIENT.channels.cache.find(channel => channel.guild === message.guild && channel.name === "report-log" );
+            const ServerRef = DB.ref(message.guild.id)
+            var MutedID = '';
+            var ReportChID = '';
+            await ServerRef.once('value',   function(snapshot) {
+                snapshot.forEach(function(childSnapshot) {
+                    Val = childSnapshot.val();
+                    if( Loop === 1 ) {
+                        MutedID = Val.toString();
+                        Loop = 2;
+                    }else if( Loop === 2 ) {
+                        ReportChID = Val.toString();
+                        Loop = 1;
+                    }
+                });
+            });
+            if(ReportChID === '')
+            {
+                var Log = CLIENT.channels.cache.find(channel => channel.guild === message.guild && channel.name === "report-log" );
+            }else{
+                var Log = CLIENT.channels.cache.find(channel => channel.guild === message.guild && channel.id.slice(2,channel.id.length) === ReportChID );
+            }
             if( Log )
             {
                 if( reason )
@@ -61,7 +82,7 @@ module.exports =
                 message.guild.channels.create( 'report-log' , { type : "text" });
                 var Embed = new Discord.MessageEmbed()
                 .setTitle( 'Oops' )
-                .setDescription( "I couldn't find a channel named 'report-log', so I have made one!(Run the command again)" );
+                .setDescription( "I couldn't find a channel named 'report-log'\nor a mentioned channel in my system,\n so I have made one!(Run the command again)" );
                 message.channel.send( Embed );
             }
         }
