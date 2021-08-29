@@ -1,3 +1,10 @@
 {
-    "token" : "BOT_TOKEN" ,
+    "token" : "token",
+    "apiKey" : "apiKey",
+    "authDomain" : "authDomain",
+    "projectId" : "projectId",
+    "storageBucket" : "storageBucket",
+    "messagingSenderId" : "messagingSenderId",
+    "appId" : "appId",
+    "measurementId" : "measurementId"
 }

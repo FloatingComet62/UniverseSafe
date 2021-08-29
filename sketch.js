@@ -1,10 +1,22 @@
 //---------------------------------------------------------//
 //Universesafe
 const Discord = require('discord.js');
-const ms = require('ms');
+const firebase = require('firebase');
 const Client = new Discord.Client();
 const prefix = '.';
+const config = require('./config.json');
 const fs = require('fs');
+var firebaseConfig = {
+  apiKey: config.apiKey,
+  authDomain: config.authDomain,
+  projectId: config.projectId,
+  storageBucket: config.storageBucket,
+  messagingSenderId: config.messagingSenderId,
+  appId: config.appId,
+  measurementId: config.measurementId
+};
+firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
 
 Client.commands = new Discord.Collection();
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
@@ -51,7 +63,7 @@ Client.on( 'message' , message =>
   
                                     if( command === 'ping' )
                                     {
-                                         Client.commands.get( 'ping' ).execute( message , args );
+                                        Client.commands.get( 'ping' ).execute( message , args );
                                     }
                                     if( command === 'commands' )
                                     {
@@ -67,7 +79,7 @@ Client.on( 'message' , message =>
                                         {
                                            Client.commands.get( 'kick' ).execute( message , args );
                                         }
-                                        if( command === 'ban' )
+                                       if( command === 'ban' )
                                         {
                                             Client.commands.get( 'ban' ).execute( message , args );
                                         }
@@ -77,23 +89,27 @@ Client.on( 'message' , message =>
                                         }
                                         if( command === 'mute' )
                                         {
-                                            Client.commands.get( 'mute' ).execute( message , args );
+                                            Client.commands.get( 'mute' ).execute( message , args , database );
                                         }
                                         if( command === 'unmute' )
                                         {
-                                            Client.commands.get( 'unmute' ).execute( message , args );
+                                            Client.commands.get( 'unmute' ).execute( message , args , database );
                                         }
                                         if( command === 'report' )
                                         {
-                                            Client.commands.get( 'report' ).execute( message , args , Client );
+                                            Client.commands.get( 'report' ).execute( message , args , Client , database );
                                         }
                                         if( command === 'poll' )
                                         {
                                             Client.commands.get( 'poll' ).execute( message , args , Client );
+                                        }
+                                        if( command === 'update' )
+                                        {
+                                            Client.commands.get( 'update' ).execute( message , args , database );
                                         }
                                     }
                                 }
         );
 //----------------------------------------------------------------------------//
 //login
-Client.login(require('./config.json').token);
+Client.login(config.token);
