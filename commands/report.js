@@ -79,7 +79,13 @@ module.exports =
             }
             else
             {
-                message.guild.channels.create( 'report-log' , { type : "text" });
+                message.guild.channels.create( 'report-log' , { type : "text" })
+                .then(function(){
+                    var NEWCHANNEL = CLIENT.channels.cache.find(channel => channel.guild === message.guild && channel.name === "report-log" ).id
+                    ServerRef.update({
+                        ReportCHID : parseInt(NEWCHANNEL.slice(2,NEWCHANNEL.length))
+                    });
+                });
                 var Embed = new Discord.MessageEmbed()
                 .setTitle( 'Oops' )
                 .setDescription( "I couldn't find a channel named 'report-log'\nor a mentioned channel in my system,\n so I have made one!(Run the command again)" );
