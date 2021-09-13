@@ -1,9 +1,5 @@
 # How to set up the releases?
 
-[TOC]
-
-
-
 ## File setup
 
 1. Download the release from [here](https://github.com/FloatingComet62/UniverseSafe/releases)
