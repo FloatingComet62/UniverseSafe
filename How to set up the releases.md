@@ -1,5 +1,8 @@
 # How to set up the releases?
 
+## Releases
+[Discord.js-v12.5.1](https://github.com/FloatingComet62/UniverseSafe/releases/tag/v12)
+
 
 ## File setup
 
