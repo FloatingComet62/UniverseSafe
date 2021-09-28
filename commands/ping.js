@@ -10,6 +10,10 @@ module.exports =
         var ping = ping.replace(/-/g, "");
         var Embed = new Discord.MessageEmbed()
         .setDescription( "Pong! `" + ping );
-        message.channel.send( Embed );
+        message.channel.send( {
+            embeds : [
+                Embed
+            ]
+        } );
     }
 }

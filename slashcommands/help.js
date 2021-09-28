@@ -1,73 +1,53 @@
-const Discord = require("discord.js")
+const Discord = require('discord.js');
 
-
-module.exports=
-{
-    name : 'help' ,
-    description : "A helpful command for newbies" ,
-    execute( message , args )
-    {
-        if( args[0] === undefined )
-        {
-            var Embed = new Discord.MessageEmbed()
-            .setTitle( "Universesafe | Help" )
-            .setDescription( "```Hello, I am Universesafe!\n I am a moderation bot which will moderate your server!```\n\n**Features**\n\n```I censor direct swear words, simplify moderation actions, like clear messages, ban, kick, mute & unmute```\n\n**Commands**\n\n```To get more info about the commands, use .help commands <command>```\n[] means optional\n() means compulsory\n***```Everyone commands ->```***\n1. `.ping`\n2. `.commands`\n3. `.poll (ChannelID) (MessageID)`***```Moderator commands ->```***\n1. `.mute (User) [Duration]`\n2. `.unmute (User)`\n3. `.clear (Number)`\n4. `.ban (User) [Reason]`\n5. `.kick (User)`\n6. `.report (User) [Reason]`\n7. `.update (Type) (Mention)`\n\n**```Nexus```**\n[Vote](https://discordbotlist.com/bots/universesafe/upvote)\n[Vote Me 2.0](https://top.gg/bot/834415441358094416/vote)\n[Invite Me](https://discord.com/oauth2/authorize?client_id=834415441358094416&permissions=8&scope=bot%20applications.commands)\n[Report a Bug](https://github.com/FloatingComet62/UniverseSafe/issues)" )
-            .setThumbnail( 'https://cdn.discordapp.com/avatars/834415441358094416/0867183dc955b618e7754237dd30855c.png?size=128' )
-            message.channel.send( {
-                embeds : [
-                    Embed
-                ]
-            } );
-        }
-        if( args[0] === 'commands' )
-        {
-            if( args[1] === undefined )
-            {
-                var EmbedError = new Discord.MessageEmbed()
-                .setTitle( 'Oops' )
-                .setDescription( 'Invaild usage' )
-                .addFields(
-                    { name : 'Example' , value : '`.help commands ping`' }
-                )
-                message.channel.send( {
+module.exports={
+    name : 'help',
+    execute( interaction , options ){
+        CommandLookUp = options.getString('command');
+            if(CommandLookUp===null){
+                var Embed = new Discord.MessageEmbed()
+                .setTitle( "Universesafe | Help" )
+                .setDescription( "```Hello, I am Universesafe!\n I am a moderation bot which will moderate your server!```\n\n**Features**\n\n```I censor direct swear words, simplify moderation actions, like clear messages, ban, kick, mute & unmute```\n\n**Commands**\n\n```To get more info about the commands, use .help commands <command>```\n[] means optional\n() means compulsory\n***```Everyone commands ->```***\n1. `.ping`\n2. `.commands`\n3. `.poll (ChannelID) (MessageID)`***```Moderator commands ->```***\n1. `.mute (User) [Duration]`\n2. `.unmute (User)`\n3. `.clear (Number)`\n4. `.ban (User) [Reason]`\n5. `.kick (User)`\n6. `.report (User) [Reason]`\n7. `.update (Type) (Mention)`\n\n**```Nexus```**\n[Vote](https://discordbotlist.com/bots/universesafe/upvote)\n[Vote Me 2.0](https://top.gg/bot/834415441358094416/vote)\n[Invite Me](https://discord.com/oauth2/authorize?client_id=834415441358094416&permissions=8&scope=bot%20applications.commands)\n[Report a Bug](https://github.com/FloatingComet62/UniverseSafe/issues)" )
+                .setThumbnail( 'https://cdn.discordapp.com/avatars/834415441358094416/0867183dc955b618e7754237dd30855c.png?size=128' )
+                interaction.reply({
                     embeds : [
-                        EmbedError
-                    ]
-                } );
+                        Embed
+                    ],
+                    ephemeral : true,
+                })
             }
-            if( args[1] === 'ping' )
-            {
-                var Embed1 = new Discord.MessageEmbed()
+            if(CommandLookUp==='ping'){
+                var Embed = new Discord.MessageEmbed()
                 .setTitle( 'Commands | Ping' )
                 .setDescription( 'This command is used to know the respond time of UniverseSafe' )
                 .addFields(
                     { name : 'Usage Example' , value : '`.ping`' } ,
                     { name : 'Permission' , value : 'Everyone' }
                 );
-                message.channel.send( {
+                interaction.reply({
                     embeds : [
-                        Embed1
-                    ]
-                } );
+                        Embed
+                    ],
+                    ephemeral : true,
+                })
             }
-            if( args[1] === 'commands' )
-            {
-                var Embed2 = new Discord.MessageEmbed()
+            if(CommandLookUp==='commands'){
+                var Embed = new Discord.MessageEmbed()
                 .setTitle( 'Commands | Command' )
                 .setDescription( 'This command is used to show all the commands' )
                 .addFields(
                     { name : 'Usage Example' , value : '`.commands`' } ,
                     { name : 'Permission' , value : 'Everyone' }
                 );
-                message.channel.send( {
+                interaction.reply({
                     embeds : [
-                        Embed2
-                    ]
-                } );
+                        Embed
+                    ],
+                    ephemeral : true,
+                })
             }
-            if( args[1] === 'poll' )
-            {
-                var Embed3 = new Discord.MessageEmbed()
+            if(CommandLookUp==='polls'){
+                var Embed = new Discord.MessageEmbed()
                 .setTitle( 'Commands | Poll' )
                 .setDescription( 'This command is used to React upvote and downvote' )
                 .addFields(
@@ -76,15 +56,15 @@ module.exports=
                     { name : 'Permission' , value : 'Everyone' }
                 )
                 .setFooter( '() is compulsary\n[] is optional' );
-                message.channel.send( {
+                interaction.reply({
                     embeds : [
-                        Embed3
-                    ]
-                } );
+                        Embed
+                    ],
+                    ephemeral : true,
+                })
             }
-            if( args[1] === 'mute' )
-            {
-                var Embed4 = new Discord.MessageEmbed()
+            if(CommandLookUp==='mute'){
+                var Embed = new Discord.MessageEmbed()
                 .setTitle( 'Commands | Mute' )
                 .setDescription( 'This command is used to Mute Someone' )
                 .addFields(
@@ -93,15 +73,15 @@ module.exports=
                     { name : 'Permission' , value : 'Kick and Ban' }
                 )
                 .setFooter( '() is compulsary\n[] is optional' );
-                message.channel.send( {
+                interaction.reply({
                     embeds : [
-                        Embed4
-                    ]
-                } );
+                        Embed
+                    ],
+                    ephemeral : true,
+                })
             }
-            if( args[1] === 'unmute' )
-            {
-                var Embed5 = new Discord.MessageEmbed()
+            if(CommandLookUp==='unmute'){
+                var Embed = new Discord.MessageEmbed()
                 .setTitle( 'Commands | Unmute' )
                 .setDescription( 'This command is used to Unmute Someone' )
                 .addFields(
@@ -110,15 +90,15 @@ module.exports=
                     { name : 'Permission' , value : 'Kick and Ban' }
                 )
                 .setFooter( '() is compulsary\n[] is optional' );
-                message.channel.send( {
+                interaction.reply({
                     embeds : [
-                        Embed5
-                    ]
-                } );
+                        Embed
+                    ],
+                    ephemeral : true,
+                })
             }
-            if( args[1] === 'clear' )
-            {
-                var Embed6 = new Discord.MessageEmbed()
+            if(CommandLookUp==='clear'){
+                var Embed = new Discord.MessageEmbed()
                 .setTitle( 'Commands | Clear' )
                 .setDescription( 'This command is used to Clear messages' )
                 .addFields(
@@ -127,15 +107,15 @@ module.exports=
                     { name : 'Permission' , value : 'Manage Messages' }
                 )
                 .setFooter( '() is compulsary\n[] is optional' );
-                message.channel.send( {
+                interaction.reply({
                     embeds : [
-                        Embed6
-                    ]
-                } );
+                        Embed
+                    ],
+                    ephemeral : true,
+                })
             }
-            if( args[1] === 'ban' )
-            {
-                var Embed7 = new Discord.MessageEmbed()
+            if(CommandLookUp==='ban'){
+                var Embed = new Discord.MessageEmbed()
                 .setTitle( 'Commands | Ban' )
                 .setDescription( 'This command is used to Ban people' )
                 .addFields(
@@ -144,15 +124,15 @@ module.exports=
                     { name : 'Permission' , value : 'Ban' }
                 )
                 .setFooter( '() is compulsary\n[] is optional' );
-                message.channel.send( {
+                interaction.reply({
                     embeds : [
-                        Embed7
-                    ]
-                } );
+                        Embed
+                    ],
+                    ephemeral : true,
+                })
             }
-            if( args[1] === 'kick' )
-            {
-                var Embed8 = new Discord.MessageEmbed()
+            if(CommandLookUp==='kick'){
+                var Embed = new Discord.MessageEmbed()
                 .setTitle( 'Commands | Kick' )
                 .setDescription( 'This command is used to Ban people' )
                 .addFields(
@@ -161,15 +141,15 @@ module.exports=
                     { name : 'Permission' , value : 'Kick' }
                 )
                 .setFooter( '() is compulsary\n[] is optional' );
-                message.channel.send( {
+                interaction.reply({
                     embeds : [
-                        Embed8
-                    ]
-                } );
+                        Embed
+                    ],
+                    ephemeral : true,
+                })
             }
-            if( args[1] === 'report' )
-            {
-                var Embed9 = new Discord.MessageEmbed()
+            if(CommandLookUp==='report'){
+                var Embed = new Discord.MessageEmbed()
                 .setTitle( 'Commands | Report' )
                 .setDescription( 'This command is used to Report people' )
                 .addFields(
@@ -178,15 +158,15 @@ module.exports=
                     { name : 'Permission' , value : 'Everyone' }
                 )
                 .setFooter( '() is compulsary\n[] is optional' );
-                message.channel.send( {
+                interaction.reply({
                     embeds : [
-                        Embed9
-                    ]
-                } );
+                        Embed
+                    ],
+                    ephemeral : true,
+                })
             }
-            if( args[1] === 'update' )
-            {
-                var Embed10 = new Discord.MessageEmbed()
+            if(CommandLookUp==='update'){
+                var Embed = new Discord.MessageEmbed()
                 .setTitle( 'Commands | Update' )
                 .setDescription( 'This command is used to customize features' )
                 .addFields(
@@ -195,12 +175,12 @@ module.exports=
                     { name : 'Permission' , value : 'Manage Server' }
                 )
                 .setFooter( '() is compulsary\n[] is optional' );
-                message.channel.send( {
+                interaction.reply({
                     embeds : [
-                        Embed10
-                    ]
-                } );
+                        Embed
+                    ],
+                    ephemeral : true,
+                })
             }
-        }
     }
 }

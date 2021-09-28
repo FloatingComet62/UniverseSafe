@@ -6,7 +6,7 @@ module.exports=
     description : 'Update the info in the database',
     async execute( message , args , DB )
     {
-        let perms = message.member.permissions.has( "MANAGE_SERVER" );
+        let perms = message.member.permissions.has( "MANAGE_GUILD" );
         if( perms )
         {
             const ServerRef = DB.ref(message.guild.id);
@@ -21,12 +21,20 @@ module.exports=
                     var Embed1 = new Discord.MessageEmbed()
                     .setTitle('Done')
                     .setDescription('Updated <@&' + UpdateRole.id + '>');
-                    message.channel.send(Embed1);
+                    message.channel.send({
+                        embeds : [
+                            Embed1
+                        ]
+                    });
                 }else{
                     var Embed3 = new Discord.MessageEmbed()
                     .setTitle('Oops')
                     .setDescription('Can you please mention the role?');
-                    message.channel.send(Embed3);
+                    message.channel.send({
+                        embeds : [
+                            Embed3
+                        ]
+                    });
                 }
             }else if( args[0] === 'reportedChannel' )
             {
@@ -39,25 +47,41 @@ module.exports=
                     var Embed2 = new Discord.MessageEmbed()
                     .setTitle('Done')
                     .setDescription('Updated <#' + UpdateChannel.id + '>');
-                    message.channel.send(Embed2);
+                    message.channel.send({
+                        embeds : [
+                            Embed2
+                        ]
+                    });
                 }else{
                     var Embed4 = new Discord.MessageEmbed()
                     .setTitle('Oops')
                     .setDescription('Can you please mention the channel?');
-                    message.channel.send(Embed4);
+                    message.channel.send({
+                        embeds : [
+                            Embed4
+                        ]
+                    });
                 }
                 
             }else{
                 var EmbedError = new Discord.MessageEmbed()
                 .setTitle('Oops')
                 .setDescription('What do I need to update?\nPossible options:\n`.update mutedRole <Role Mention>` or \n`.update reportedChannel <Channel Mention>`');
-                message.channel.send(EmbedError);
+                message.channel.send({
+                    embeds : [
+                        EmbedError
+                    ]
+                });
             }
         }else{
             var EmbedNoPerms = new Discord.MessageEmbed()
             .setTitle('Oops')
             .setDescription("You don't have the permission to use this command");
-            message.channel.send(EmbedNoPerms);
+            message.channel.send({
+                embeds : [
+                    EmbedNoPerms
+                ]
+            });
         }
         
     }

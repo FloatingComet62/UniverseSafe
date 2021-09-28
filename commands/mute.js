@@ -39,7 +39,11 @@ module.exports =
                     var EmbedError = new Discord.MessageEmbed()
                     .setTitle( 'Oops' )
                     .setDescription( "I couldn't find a role named 'Muted'\nor a role mentioned on my system\nPlease Contact a Mod for help" );
-                    message.channel.send( EmbedError );
+                    message.channel.send( {
+                        embeds : [
+                            EmbedError
+                        ]
+                    } );
                     return;
                 }
                 const Target = message.guild.members.cache.get(member.id);
@@ -49,7 +53,11 @@ module.exports =
                     var Embed = new Discord.MessageEmbed()
                     .setTitle( 'Done' )
                     .setDescription( 'Muted <@!' + member.id + '>' );
-                    message.channel.send( Embed );
+                    message.channel.send( {
+                        embeds : [
+                            Embed
+                        ]
+                    } );
                     return
                 }
                 Target.roles.add( mutedRole.id );
@@ -57,7 +65,11 @@ module.exports =
                 var Embed2 = new Discord.MessageEmbed()
                 .setTitle( 'Done' )
                 .setDescription( 'Muted <@' + member.id + '> for ' + Seconds + 'seconds' );
-                message.channel.send( Embed2 );
+                message.channel.send( {
+                    embeds : [
+                        Embed2
+                    ]
+                } );
                 setTimeout( 
                             function()
                             {
@@ -68,13 +80,21 @@ module.exports =
                 var Embed3 = new Discord.MessageEmbed()
                 .setTitle( 'Oops' )
                 .setDescription( "You can't mute that member" );
-                message.channel.send( Embed3 );
+                message.channel.send( {
+                    embeds : [
+                        Embed3
+                    ]
+                } );
             }
         }else{
             var Embed4 = new Discord.MessageEmbed()
             .setTitle( 'Oops' )
             .setDescription( 'You are not allowed to use this command' )
-            message.channel.send( Embed4 );
+            message.channel.send( {
+                embeds : [
+                    Embed4
+                ]
+            } );
         }
     }
 }

@@ -47,8 +47,16 @@ module.exports =
                     var Embed2 = new Discord.MessageEmbed()
                     .setTitle( 'Report' )
                     .setDescription( 'Reporter : <@!' + reportermember + '>\nReported : <@!' + reportedmember + '>\n Reason : ' + reason + '' );
-                    message.author.send( Embed1 );
-                    Log.send( Embed2 )
+                    message.author.send( {
+                        embeds : [
+                            Embed1
+                        ]
+                    } );
+                    Log.send( {
+                        embeds : [
+                            Embed2
+                        ]
+                    } )
                     .then( 
                         function (message)
                         {
@@ -66,8 +74,16 @@ module.exports =
                     var Embed4 = new Discord.MessageEmbed()
                     .setTitle( 'Report' )
                     .setDescription( 'Reporter : <@!' + reportermember + '>\nReported : <@!' + reportedmember + '>' );
-                    message.author.send( Embed3 );
-                    Log.send( Embed4 )
+                    message.author.send( {
+                        embeds : [
+                            Embed3
+                        ]
+                    } );
+                    Log.send( {
+                        embeds : [
+                            Embed4
+                        ]
+                    } )
                     .then( 
                         function (message)
                         {
@@ -79,17 +95,15 @@ module.exports =
             }
             else
             {
-                message.guild.channels.create( 'report-log' , { type : "text" })
-                .then(function(){
-                    var NEWCHANNEL = CLIENT.channels.cache.find(channel => channel.guild === message.guild && channel.name === "report-log" ).id
-                    ServerRef.update({
-                        ReportCHID : parseInt(NEWCHANNEL.slice(2,NEWCHANNEL.length))
-                    });
-                });
+                message.guild.channels.create( 'report-log' , { type : "text" });
                 var Embed = new Discord.MessageEmbed()
                 .setTitle( 'Oops' )
                 .setDescription( "I couldn't find a channel named 'report-log'\nor a mentioned channel in my system,\n so I have made one!(Run the command again)" );
-                message.channel.send( Embed );
+                message.channel.send( {
+                    embeds : [
+                        Embed
+                    ]
+                } );
             }
         }
         else
@@ -97,7 +111,11 @@ module.exports =
             var EmbedError = new Discord.MessageEmbed()
             .setTitle( 'Oops' )
             .setDescription( "You can't report that member" );
-            message.channel.send( EmbedError );
+            message.channel.send( {
+                embeds : [
+                    EmbedError
+                ]
+            } );
         }
     }
 }

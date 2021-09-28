@@ -14,7 +14,11 @@ module.exports =
                 var Embed = new Discord.MessageEmbed()
                 .setTitle( 'Oops' )
                 .setDescription( "Please mention the amount of messages which you want me to clear" );
-                message.reply( Embed );
+                message.reply( {
+                    embeds : [
+                        Embed
+                    ]
+                } );
                 return;
             }
             if( isNaN( args[0] ) )
@@ -22,7 +26,11 @@ module.exports =
                 var Embed = new Discord.MessageEmbed()
                 .setTitle( 'Oops' )
                 .setDescription( "Please enter a number" );
-                message.reply( Embed );
+                message.reply( {
+                    embeds : [
+                        Embed
+                    ]
+                } );
                 return;
             }
             if( args[0] > 100 )
@@ -30,7 +38,11 @@ module.exports =
                 var Embed = new Discord.MessageEmbed()
                 .setTitle( 'Oops' )
                 .setDescription( "Please enter a number less than 100" );
-                message.reply( Embed );
+                message.reply( {
+                    embeds : [
+                        Embed
+                    ]
+                } );
                 return;
             }
             if( args[0] < 1 )
@@ -38,7 +50,11 @@ module.exports =
                 var Embed = new Discord.MessageEmbed()
                 .setTitle( 'Oops' )
                 .setDescription( "Please enter a +ve number" );
-                message.reply( Embed );
+                message.reply( {
+                    embeds : [
+                        Embed
+                    ]
+                } );
                 return;
             }
 
@@ -47,14 +63,22 @@ module.exports =
                 var Embed = new Discord.MessageEmbed()
                 .setTitle( 'Done' )
                 .setDescription( args[0] + ' messages deleted' );
-                message.channel.send( Embed );
+                message.channel.send( {
+                    embeds : [
+                        Embed
+                    ]
+                } );
             } );
         }
         else
         {
             var Embed = new Discord.MessageEmbed()
             .setDescription( "You are not allowed to use this command" );
-            message.channel.send( Embed );
+            message.channel.send( {
+                embeds : [
+                    Embed
+                ]
+            } );
         }
     }
 }
