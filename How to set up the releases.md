@@ -2,6 +2,7 @@
 
 ## Releases
 [Discord.js-v12.5.1](https://github.com/FloatingComet62/UniverseSafe/releases/tag/v12)
+
 [Discord.js-v13.1.0](https://github.com/FloatingComet62/UniverseSafe/releases/tag/v13)
 
 
