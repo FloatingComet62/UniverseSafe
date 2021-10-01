@@ -253,7 +253,6 @@ Client.once( 'ready' , ()=>{
 
 Client.on( 'interactionCreate' , async(interaction) => {
         if(!interaction.isCommand()) return;
-        if(interaction.user.id!='701059544574591006') return;
         const { commandName , options } = interaction;
         if(commandName==='help'){
             Client.slashcommands.get( 'help' ).execute( interaction , options );
