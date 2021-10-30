@@ -4,7 +4,7 @@ module.exports =
 {
     name : 'report' ,
     description : "Used to report people" ,
-    async execute( message , args , CLIENT , DB )
+    async execute( message , args , Client , DB )
     {
         const Reported = message.mentions.users.first();
         const Reporter = message.guild.members.cache.get(message.author.id);
@@ -31,9 +31,9 @@ module.exports =
             });
             if(ReportChID === '')
             {
-                var Log = CLIENT.channels.cache.find(channel => channel.guild === message.guild && channel.name === "report-log" );
+                var Log = Client.channels.cache.find(channel => channel.guild === message.guild && channel.name === "report-log" );
             }else{
-                var Log = CLIENT.channels.cache.find(channel => channel.guild === message.guild && channel.id.slice(2,channel.id.length) === ReportChID );
+                var Log = Client.channels.cache.find(channel => channel.guild === message.guild && channel.id.slice(2,channel.id.length) === ReportChID );
             }
             if( Log )
             {

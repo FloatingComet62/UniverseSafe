@@ -58,7 +58,7 @@ Client.on("guildCreate", guild => {
     let channel = guild.channels.cache.get(guild.systemChannelID || channelID);
                                         var Embed = new Discord.MessageEmbed()
                                         .setTitle( "Universesafe | Thanks for inviting" )
-                                        .setDescription( "```Hello, I am Universesafe!\n I am a moderation bot which will moderate your server!```\n\n**Features**\n\n```I censor direct swear words, simplify moderation actions, like clear messages, ban, kick, mute & unmute```\n\n**```Nexus```**\n[Vote Me](https://discordbotlist.com/bots/universesafe/upvote)\n[Vote Me 2.0](https://top.gg/bot/834415441358094416/vote)\n[Invite Me](https://discord.com/oauth2/authorize?client_id=834415441358094416&permissions=8&scope=bot%20applications.commands)\n[Report a Bug](https://github.com/FloatingComet62/UniverseSafe/issues)" )
+                                        .setDescription( "```Hello, I am Universesafe!\n I am a moderation bot which will moderate your server!```\n\n**Features**\n\n```I censor toxic messages, simplify moderation actions, like clear messages, ban, kick, mute & unmute```\n\n**```Nexus```**\n[Vote Me](https://discordbotlist.com/bots/universesafe/upvote)\n[Vote Me 2.0](https://top.gg/bot/834415441358094416/vote)\n[Invite Me](https://discord.com/oauth2/authorize?client_id=834415441358094416&permissions=8&scope=bot%20applications.commands)\n[Support Server](https://discord.gg/xq8wMZuVPJ)" )
                                         .setThumbnail( 'https://cdn.discordapp.com/avatars/834415441358094416/0867183dc955b618e7754237dd30855c.png?size=128' )
                                         channel.send( {
                                             embeds : [
@@ -283,7 +283,7 @@ Client.on( 'interactionCreate' , async(interaction) => {
 
 Client.on( 'messageCreate' , message =>{
 
-    require('./commands/censor').execute( message );
+    require('./commands/censor').execute( message , database );
 
     if(!message.content.startsWith(prefix) || message.author.bot) return;
 

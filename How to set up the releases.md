@@ -86,6 +86,15 @@
     ![Create Database](https://media.discordapp.net/attachments/753507198235050006/886845747734151188/unknown.png)
 
 
+## Google API Key setup
+
+Custom Documentation Soon, meanwhile :
+
+1. Use [this](https://developers.perspectiveapi.com/s/docs-get-started) documentation by google to setup a google cloud account and make a project
+2. Request the API
+3. Use [this](https://developers.perspectiveapi.com/s/docs-enable-the-api) documentation to get the API key.
+4. Copy the key and paste it on "GoogleAPIKey" in config.json
+
 ## Node.js setup
 
 1. Head over to [Node.js](https://nodejs.org/en/)
@@ -115,4 +124,4 @@
 
 4. It should now say "Bot Updated".
 
-5. Now the bot is online!
+5. Now the bot is online

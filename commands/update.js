@@ -7,6 +7,22 @@ module.exports=
     async execute( message , args , DB )
     {
         let perms = message.member.permissions.has( "MANAGE_GUILD" );
+        const ServerRef = DB.ref(message.guild.id);
+        var MutedID = '';
+        var ReportChID = '';
+        var Loop = 1;
+        await ServerRef.once('value',   function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+                Val = childSnapshot.val();
+                if( Loop === 1 ) {
+                    MutedID = Val.toString();
+                    Loop = 2;
+                }else if( Loop === 2 ) {
+                    ReportChID = Val.toString();
+                    Loop = 1;
+                }
+            });
+        });
         if( perms )
         {
             const ServerRef = DB.ref(message.guild.id);
@@ -15,9 +31,19 @@ module.exports=
                 const UpdateRole = message.mentions.roles.first();
                 if( UpdateRole )
                 {
-                    ServerRef.update({
-                        MutedID : parseInt(UpdateRole.id.slice(2,UpdateRole.id.length))
-                    });
+                    if( UpdateRole.id != undefined ){
+                        if(ReportChID != ''){
+                            ServerRef.update({
+                                MutedID : parseInt(UpdateRole.id.slice(2,UpdateRole.id.length)),
+                                ReportCHID : ReportChID
+                            });
+                        }else{
+                            ServerRef.update({
+                                MutedID : parseInt(UpdateRole.id.slice(2,UpdateRole.id.length)),
+                                ReportCHID : ''
+                            });
+                        }
+                    }
                     var Embed1 = new Discord.MessageEmbed()
                     .setTitle('Done')
                     .setDescription('Updated <@&' + UpdateRole.id + '>');
@@ -41,9 +67,19 @@ module.exports=
                 const UpdateChannel = message.mentions.channels.first();
                 if( UpdateChannel )
                 {
-                    ServerRef.update({
-                        ReportCHID : parseInt(UpdateChannel.id.slice(2,UpdateChannel.id.length))
-                    });
+                    if( UpdateChannel.type === 'GUILD_TEXT' ){
+                        if(MutedID != ''){
+                            ServerRef.update({
+                                MutedID : MutedID,
+                                ReportCHID : parseInt(UpdateChannel.id.slice(2,UpdateChannel.id.length))
+                            });
+                        }else{
+                            ServerRef.update({
+                                MutedID : '',
+                                ReportCHID : parseInt(UpdateChannel.id.slice(2,UpdateChannel.id.length))
+                            });
+                        }
+                    }
                     var Embed2 = new Discord.MessageEmbed()
                     .setTitle('Done')
                     .setDescription('Updated <#' + UpdateChannel.id + '>');

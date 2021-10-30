@@ -1,79 +1,102 @@
 const Discord = require('discord.js');
 const ms = require('ms');
+const {google} = require('googleapis');
+const config = require('../config.json');
 module.exports =
 {
     name : 'censor' ,
     description : 'These are the words which get censored' ,
-    execute( message )
+    execute( message , DB )
     {
-        function check_swear( word )
-        {
-            if( message.channel.id != '796295256840732723' || message.channel.id != '796396631091052584' )
+      if(!message.content) return;
+      const API_KEY = config.GoogleAPIKey;
+      const DISCOVERY_URL = 'https://commentanalyzer.googleapis.com/$discovery/rest?version=v1alpha1';
+        
+      google.discoverAPI(DISCOVERY_URL)
+        .then(client => {
+          const analyzeRequest = {
+            comment: {
+              text: message.content,
+            },
+            requestedAttributes: {
+              TOXICITY: {},
+              THREAT: {},
+              INSULT: {},
+              PROFANITY: {}
+            },
+          };
+      
+          client.comments.analyze(
             {
-                let Lowmsg = message.content.toLowerCase();
-                if( Lowmsg.includes( word )  && !message.author.bot && !message.member.permissions.has( "MANAGE_MESSAGES" ) )
-                {
-                    if( message.content === word )
-                    {
-                    message.delete();
-                    const member = message.author.id;
-                    let mutedRole = message.guild.roles.cache.find( role => role.name === "Muted" );
-                    const Target = message.guild.members.cache.get(member);
-                    Target.roles.add( mutedRole.id );
-                    var Embed = new Discord.MessageEmbed()
-                    .setTitle( 'Warning' )
-                    .setDescription( 'Muted <@!' + member + '> for `30` minutes for swearing' );
-                    message.channel.send( {
-                        embeds : [
-                            Embed
-                        ]
-                    } );
-                    setTimeout( 
-                                function()
-                                {
-                                    Target.roles.remove( mutedRole.id );
-                                } , ms( '30m' )
-                            );
+              key: API_KEY,
+              resource: analyzeRequest,
+            },
+            (err, response) => {
+              if (err) throw err;
+              var Info = JSON.stringify(response.data, null, 2);
+              Info = JSON.parse(Info);
+              var ToxicPercent = Math.round(Info.attributeScores.TOXICITY.spanScores[0].score.value*100);
+                  Mute(ToxicPercent, 90, 100, '10m', Info , 'Toxic');
+                  Mute(ToxicPercent, 85, 90, '5m', Info, 'Toxic');
+                  Mute(ProfanityPercent, 90, 100, '10m', Info, 'Explict');
+                  Mute(ProfanityPercent, 85, 90, '5m', Info, 'Explict');
+
+            });
+        })
+        .catch(err => {
+          throw err;
+        });
+      async function Mute(PercentVariable, PercentMin, PercentMax, time, Info, type){
+        if(ToxicPercentVariable >= ToxicPercentMin && ToxicPercentVariable < ToxicPercentMax){
+          if(message.deletable){
+              message.delete().catch(err => {});
+              const ServerRef = DB.ref(message.guild.id)
+              var MutedID = '';
+              var ReportChID = '';
+              await ServerRef.once('value',   function(snapshot) {
+                snapshot.forEach(function(childSnapshot) {
+                    Val = childSnapshot.val();
+                    if( Loop === 1 ) {
+                        MutedID = Val.toString();
+                        Loop = 2;
+                    }else if( Loop === 2 ) {
+                        ReportChID = Val.toString();
+                        Loop = 1;
                     }
-                    let situation = " " + word + " ";
-                    if( Lowmsg.includes( situation )  && !message.author.bot && !message.member.permissions.has( "MANAGE_MESSAGES" ) )
-                    {
-                        message.delete();
-                        const member = message.author.id;
-                        let mutedRole = message.guild.roles.cache.find( role => role.name === "Muted" );
-                        const Target = message.guild.members.cache.get(member);
-                        Target.roles.add( mutedRole.id );
-                        var Embed = new Discord.MessageEmbed()
-                        .setTitle( 'Warning' )
-                        .setDescription( 'Muted <@!' + member + '> for `30` minutes for swearing' );
-                        message.channel.send( {
-                            embeds : [
-                                Embed
-                            ]
-                        } );
-                        setTimeout( 
-                                    function()
-                                    {
-                                        Target.roles.remove( mutedRole.id );
-                                    } , ms( '10m' )
-                                );
-                    }
-                }
+                });
+            });
+            if( MutedID === '' )
+            {
+                var mutedRole = message.guild.roles.cache.find( role => role.name.toLowerCase() === "muted" );
+            }else{
+                var mutedRole = message.guild.roles.cache.find( role => role.guild === message.guild && role.id.slice(2,role.id.length) === MutedID );
             }
-        }
-        check_swear( 'fuck' );
-        check_swear( 'fucking' );
-        check_swear( 'testes' );
-        check_swear( 'dildo' );
-        check_swear( 'porn' );
-        check_swear( 'bitch' );
-        check_swear( 'penis' );
-        check_swear( 'vagina' );
-        check_swear( 'shit' );
-        check_swear( 'shiting' );
-        check_swear( 'ass' );
-        check_swear( 'asshole' );
-        check_swear( 'bitch' );
-        check_swear( 'cock' );
+            if(mutedRole){
+              message.guild.members.cache.get(message.author.id).roles.add(mutedRole);
+              setTimeout(
+                function(){
+                  message.guild.members.cache.get(message.author.id).roles.remove(mutedRole);
+                } , ms(time)
+              );
+              var Embed = new Discord.MessageEmbed()
+              .setTitle('Muted')
+              .setDescription('Muted <@!' + message.author.id + '> for being '+ type.toLowerCase() +'\n' + type + ': `' + PercentVariable + '%`\nMute Duration: `' + time + '`');
+              message.channel.send({
+                embeds: [
+                    Embed
+                ]
+              });
+			var EmbedTarget = new Discord.MessageEmbed()
+              .setTitle('Muted')
+              .setDescription('You have been muted on **' + message.guild.name + '**\nToxicity: `' + Math.round(Info.attributeScores.TOXICITY.spanScores[0].score.value * 100) + '%`\nProfanity: `' + Math.round(Info.attributeScores.PROFANITY.spanScores[0].score.value * 100) + '%`\nThreatening: `' + Math.round(Info.attributeScores.THREAT.spanScores[0].score.value * 100) + '%`\nInsulting: `' + Math.round(Info.attributeScores.INSULT.spanScores[0].score.value * 100) + '%`');
+              message.author.send({
+                embeds : [
+                  EmbedTarget
+                ]
+              })
+            }
+          }
+      }
+      }
     }
 }

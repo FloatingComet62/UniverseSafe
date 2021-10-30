@@ -2,71 +2,60 @@ const Discord = require('discord.js');
 
 module.exports={
     name : 'ban',
-    execute( interaction , options ){
+    description : "Used to ban a user from the server(Needs admin perms)" ,
+    execute( message , args )
+    {
         const member = options.getUser('target');
-            let perms = interaction.member.permissions.has( "BAN_MEMBERS" );
-            const REASON = options.getString('reason');
-            if( perms )
+        let perms = message.member.permissions.has( "BAN_MEMBERS" );
+        const REASON = options.getString('reason');
+        if( perms )
+        {
+            if( member )
             {
-                var Embed3 = new Discord.MessageEmbed()
-                .setTitle( 'Banned' )
-                .setDescription( 'Banned <@!' + member.id + '>' );
-                const Target = interaction.guild.members.cache.get(member.id);
-                if( REASON != null )
-                {
-                    var Embed = new Discord.MessageEmbed()
-                    .setTitle( 'Banned' )
-                    .setDescription( 'Banner : <@' + interaction.user.id + '>\nReason : ' + REASON );
-                    function err()
+                const Target = message.guild.members.cache.get(member.id);
+                var Embed;
+                if(Target.bannable){
+                    if(args[1])
                     {
                         Embed = new Discord.MessageEmbed()
-                        .setTitle( 'Gosh' )
-                        .setDescription( '<@!' + interaction.user.id + '> attempted to ban you for "' + REASON +'", but failed.' );
-                        Embed3 = new Discord.MessageEmbed()
-                        .setTitle( 'Oops' )
-                        .setDescription( "I can't ban that member" );
-                    }
-                    Target.ban(
-                                {
-                                    reason : REASON
-                                }
-                              ).catch( err() );
-                    if(!Target.user.bot){
-                        Target.send( {
-                            embeds : [
-                                Embed
-                            ]
-                        } );
+                        .setTitle( 'Banned' )
+                        .setDescription( 'Banner : <@' + message.author + '>\nReason : ' + REASON );
+                        Target.ban({ reason : REASON });
+                    }else{
+                        Embed = new Discord.MessageEmbed()
+                        .setTitle( 'Banned' )
+                        .setDescription( 'Banned <@!' + member.id + '>' );
+                        Target.ban();
                     }
                 }else{
-                    var Embed2 = new Discord.MessageEmbed()
-                    .setTitle( 'Banned' )
-                    .setDescription( 'Banner : <@!' + interaction.user.id + '>' );
-                    Target.ban();
-                    if(!Target.user.bot){
-                        Target.send( {
-                            embeds : [
-                                Embed2
-                            ]
-                        } );
-                    }
+                    Embed = new Discord.MessageEmbed()
+                    .setTitle( 'Oops' )
+                    .setDescription( 'I can \' ban that member' );
                 }
-                interaction.reply( {
+                message.channel.send( {
                     embeds : [
-                        Embed3
-                    ],
-                    ephemeral : true,
+                        Embed
+                    ]
                 } );
             }else{
-                var Embed5 = new Discord.MessageEmbed()
+                var Embed4 = new Discord.MessageEmbed()
                 .setTitle( 'Oops' )
-                .setDescription( 'You are not allowed to use this command' );
-                interaction.reply( {
+                .setDescription( 'You can\'t ban that member' );
+                message.channel.send( {
                     embeds : [
-                        Embed5
-                    ],
-                    ephemeral : true,
+                        Embed4
+                    ]
                 } );
             }
+        }else{
+            var Embed5 = new Discord.MessageEmbed()
+            .setTitle( 'Oops' )
+            .setDescription( 'You are not allowed to use this command' );
+            message.channel.send( {
+                embeds : [
+                    Embed5
+                ]
+            } );
+        }
     }
 }

@@ -13,21 +13,26 @@ module.exports =
             if( member )
             {
                 const Target = message.guild.members.cache.get(member.id);
-                var Embed = new Discord.MessageEmbed()
-                .setTitle( 'Done' )
-                .setDescription( "Kicked <@!" + member.id + ">" );
-                function err()
-                {
+                if(Target.kickable){
+                    var Embed = new Discord.MessageEmbed()
+                    .setTitle( 'Done' )
+                    .setDescription( "Kicked <@!" + member.id + ">" );
+                    Target.kick();
+                    message.channel.send( {
+                        embeds : [
+                            Embed
+                        ]
+                    } );
+                }else{
                     Embed = new Discord.MessageEmbed()
                     .setTitle( 'Oops' )
                     .setDescription( "I can't kick that member" );
+                    message.channel.send( {
+                        embeds : [
+                            Embed
+                        ]
+                    } );
                 }
-                await Target.kick().catch( error => err( error ) );
-                message.channel.send( {
-                    embeds : [
-                        Embed
-                    ]
-                } );
             }else{
                 var EmbedError = new Discord.MessageEmbed()
                 .setTitle( 'Oops' )
