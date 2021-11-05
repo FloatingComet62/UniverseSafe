@@ -39,8 +39,7 @@ module.exports =
 	      var ProfanityPercent = Math.round(Info.attributeScores.PROFANITY.spanScores[0].score.value*100);
                   Mute(ToxicPercent, 90, 100, '10m', Info , 'Toxic');
                   Mute(ToxicPercent, 85, 90, '5m', Info, 'Toxic');
-                  Mute(ProfanityPercent, 90, 100, '10m', Info, 'Explict');
-                  Mute(ProfanityPercent, 85, 90, '5m', Info, 'Explict');
+                  Mute(ProfanityPercent, 95, 100, '5m', Info, 'Explict');
 
             });
         })
